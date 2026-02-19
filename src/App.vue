@@ -8,6 +8,7 @@ import CourseInfo from '@/components/CourseInfo/CourseInfo.vue';
 import CourseForm from './components/CourseForm/CourseForm.vue';
 
 const currentPath = ref(window.location.pathname);
+const isLogged = localStorage.getItem('user');
 
 onMounted(() => {
   window.addEventListener('popstate', () => {
@@ -17,7 +18,7 @@ onMounted(() => {
 
 const matchRoute = (path) => {
   // Exact route matches
-  if (path === '/' || path === '/courses') return Courses;
+  if (path === '/' || path === '/courses') return isLogged ? Courses : Login;
   if (path === '/login') return Login;
   if (path === '/register') return Registration;
   
@@ -32,7 +33,7 @@ const matchRoute = (path) => {
   if (courseInfoMatch) return CourseInfo;
   
   // Default fallback
-  return Courses;
+  return isLogged ? Courses : Login;
 };
 
 const currentView = computed(() => {

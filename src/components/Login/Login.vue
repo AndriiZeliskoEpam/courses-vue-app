@@ -1,5 +1,6 @@
 <script setup>
   import { reactive, ref } from 'vue'
+  import { store } from '@/store'
   import CommonButton from '../../common/Button/Button.vue'
   import CommonInput from '../../common/Input/Input.vue'
 
@@ -66,11 +67,12 @@
     isLoading.value = true
     // Simulate API call
     setTimeout(() => {
-      console.log('Login attempt:', credentials)
-      alert('Login successful!')
-      // In a real app, you would redirect to /courses here
-      window.location.href = '/courses'
-      isLoading.value = false
+      const getUser = store.users.find(user => user.email === credentials.email)
+      if (getUser) {
+        localStorage.setItem('user', JSON.stringify({email: credentials.email, name: credentials.name}));
+        window.location.href = '/courses'
+        isLoading.value = false
+      }
     }, 500)
   }
 

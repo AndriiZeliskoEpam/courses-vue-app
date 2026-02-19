@@ -3,7 +3,8 @@
   import CommonButton from '../../common/Button/Button.vue'
   import { ref, computed } from 'vue'
 
-  const isLoggedIn = ref(false)
+  const getUser = localStorage.getItem('user');
+  const isLoggedIn = ref(getUser);
   const userName = ref('User')
   const currentPath = computed(() => window.location.pathname)
 

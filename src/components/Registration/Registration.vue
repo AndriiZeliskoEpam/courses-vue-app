@@ -1,18 +1,19 @@
 <script setup>
   import { reactive, ref } from 'vue'
+  import { store } from '@/store'
   import CommonButton from '../../common/Button/Button.vue'
   import CommonInput from '../../common/Input/Input.vue'
 
   const formData = reactive({
     email: '',
+    name: '',
     password: '',
-    confirmPassword: ''
   })
 
   const errors = reactive({
     email: '',
-    password: '',
-    confirmPassword: ''
+    name: '',
+    password: ''
   })
 
   const isLoading = ref(false)
@@ -45,14 +46,14 @@
       errors.password = ''
     }
 
-    if (!formData.confirmPassword) {
-      errors.confirmPassword = 'Please confirm your password'
+    if (!formData.name) {
+      errors.name = 'Please confirm your password'
       isValid = false
-    } else if (formData.password !== formData.confirmPassword) {
-      errors.confirmPassword = 'Passwords do not match'
+    } else if (formData.name.length < 2) {
+      errors.name = 'Name must be at least 2 characters long'
       isValid = false
     } else {
-      errors.confirmPassword = ''
+      errors.name = ''
     }
 
     return isValid
@@ -68,9 +69,9 @@
     errors.password = ''
   }
 
-  const handleConfirmPasswordChange = (e) => {
-    formData.confirmPassword = e.target.value
-    errors.confirmPassword = ''
+  const handleNameChange = (e) => {
+    formData.name = e.target.value
+    errors.name = ''
   }
 
   const handleRegister = (e) => {
@@ -83,8 +84,7 @@
     isLoading.value = true
     // Simulate API call
     setTimeout(() => {
-      console.log('Registration successful:', formData.email)
-      alert('Registration successful! Please login.')
+      store.addUser({email: formData.email, name: formData.name});
       window.location.href = '/login'
       isLoading.value = false
     }, 500)
@@ -109,21 +109,21 @@
       />
 
       <CommonInput
+        labelText="Name"
+        placeholderText="Enter your name"
+        type="text"
+        :value="formData.name"
+        :errorText="errors.name"
+        @change="handleNameChange"
+      />
+
+      <CommonInput
         labelText="Password"
         placeholderText="Enter your password"
         type="password"
         :value="formData.password"
         :errorText="errors.password"
         @change="handlePasswordChange"
-      />
-
-      <CommonInput
-        labelText="Confirm Password"
-        placeholderText="Confirm your password"
-        type="password"
-        :value="formData.confirmPassword"
-        :errorText="errors.confirmPassword"
-        @change="handleConfirmPasswordChange"
       />
 
       <CommonButton
