@@ -1,8 +1,6 @@
 <script setup>
   import { ref, computed, reactive, onMounted } from 'vue'
   import { store } from '../../store.js'
-  import Input from '../../common/Input/Input.vue'
-  import CommonButton from '../../common/Button/Button.vue'
   import { generateUUID } from '@/helpers/generateUUID.js'
   import { getCurrentDateFormatted } from '@/helpers/getCurrentDate.js'
 
@@ -122,6 +120,7 @@
               placeholderText="Input text"
               labelText="Duration (minutes)"
               :value="courseData.duration"
+              v-model.number="courseData.duration"
               :errorText="errors.duration"
               @change="(e) => handleInputField(e, 'duration')"
             />
@@ -133,13 +132,13 @@
             <h3>Available Authors</h3>
             <div v-for="author in store.authors" :key="author.id" class="author-item">
               <p>{{ author.name }}</p>
-              <CommonButton 
+              <Button 
                 variant="secondary"
                 :disabled="courseData.authors.includes(author.id)"
                 @click="() => handleAddAuthorToCourse(author.id)"
               >
                 {{ courseData.authors.includes(author.id) ? 'Added' : 'Add' }}
-              </CommonButton>
+              </Button>
             </div>
           </div>
         </div>
@@ -157,18 +156,18 @@
 
       <div class="buttons-container">
         <div v-if="isCreating">
-          <CommonButton type="button" text="CREATE COURSE" @click="handleSubmit"></CommonButton>  
+          <Button type="button" text="CREATE COURSE" @click="handleSubmit"></Button>  
         </div>
         <div v-else>
-          <CommonButton type="button" text="UPDATE COURSE" @click="handleUpdateCourse"></CommonButton>
+          <Button type="button" text="UPDATE COURSE" @click="handleUpdateCourse"></Button>
         </div>
-        <CommonButton 
+        <Button 
           type="button" 
           variant="secondary"
           @click="handleCancel"
         >
           CANCEL
-        </CommonButton>
+        </Button>
       </div>
     </form>
   </div>

@@ -1,17 +1,17 @@
 <script setup>
   import { reactive, ref } from 'vue'
   import { store } from '@/store'
-  import CommonButton from '../../common/Button/Button.vue'
-  import CommonInput from '../../common/Input/Input.vue'
 
   const credentials = reactive({
     email: '',
-    password: ''
+    password: '',
+    name: ''
   })
 
   const errors = reactive({
     email: '',
-    password: ''
+    password: '',
+    name: ''
   })
 
   const isLoading = ref(false)
@@ -24,6 +24,13 @@
   const validateForm = () => {
     let isValid = true
     
+    if (!credentials.name) {
+      errors.name = 'Name is required'
+      isValid = false
+    } else {
+      errors.name = ''
+    }
+
     if (!credentials.email) {
       errors.email = 'Email is required'
       isValid = false
@@ -52,6 +59,11 @@
     errors.email = ''
   }
 
+  const handleNameChange = (e) => {
+    credentials.name = e.target.value
+    errors.name = ''
+  }
+
   const handlePasswordChange = (e) => {
     credentials.password = e.target.value
     errors.password = ''
@@ -67,12 +79,15 @@
     isLoading.value = true
     // Simulate API call
     setTimeout(() => {
-      const getUser = store.users.find(user => user.email === credentials.email)
-      if (getUser) {
-        localStorage.setItem('user', JSON.stringify({email: credentials.email, name: credentials.name}));
-        window.location.href = '/courses'
-        isLoading.value = false
+      const getUser = store.getUserByEmail(credentials.email)
+      if (!getUser) {
+        // Add new user if doesn't exist
+        store.addUser({ email: credentials.email, name: credentials.name })
       }
+      
+      localStorage.setItem('user', JSON.stringify({ email: credentials.email, name: credentials.name }))
+      window.location.href = '/courses'
+      isLoading.value = false
     }, 500)
   }
 
@@ -85,7 +100,16 @@
   <div class="login-container">
     <h1>Login</h1>
     <form class="form-container" @submit.prevent="handleLogin">
-      <CommonInput
+      <Input
+        labelText="Name"
+        placeholderText="Enter your name"
+        type="text"
+        :value="credentials.name"
+        :errorText="errors.name"
+        @change="handleNameChange"
+      />
+
+      <Input
         labelText="Email"
         placeholderText="Enter your email"
         type="email"
@@ -94,7 +118,7 @@
         @change="handleEmailChange"
       />
       
-      <CommonInput
+      <Input
         labelText="Password"
         placeholderText="Enter your password"
         type="password"
@@ -103,13 +127,13 @@
         @change="handlePasswordChange"
       />
 
-      <CommonButton
+      <Button
         type="submit"
         :disabled="isLoading"
         @click="handleLogin"
       >
         {{ isLoading ? 'Logging in...' : 'Login' }}
-      </CommonButton>
+      </Button>
 
       <p class="register-link">
         Don't have an account?

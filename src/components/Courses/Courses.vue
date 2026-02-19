@@ -3,7 +3,6 @@
   import { ref, computed } from 'vue'
   import CourseCard from './components/CourseCard/CourseCard.vue'
   import EmptyCourses from '../Courses/components/EmptyCourses/EmptyCoursesList.vue'
-  import CommonButton from '../../common/Button/Button.vue'
 
   const searchQuery = ref('')
 
@@ -29,7 +28,7 @@
   <div class="courses-wrapper">
     <div class="courses-header">
       <h1>Courses</h1>
-      <CommonButton
+      <Button
         text="Add New Course"
         @click="handleAddCourse"
       />

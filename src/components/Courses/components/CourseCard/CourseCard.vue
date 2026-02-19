@@ -1,7 +1,8 @@
 <script setup>
   import { store } from '@/store'
-  import CommonButton from "@/common/Button/Button.vue"
   import { getCourseDuration, formatCreationDate } from '@/helpers'
+  import deleteIcon from '../../../../assets/deleteButtonIcon.svg'
+  import editIcon from '../../../../assets/editButtonIcon.svg'
 
   const props = defineProps({
     course: {
@@ -44,11 +45,15 @@
         </p>
         <div class="buttons-container">
           <a :href="`/courses/${course.id}`">
-            <CommonButton text="Show Course"></CommonButton>
+            <Button text="Show Course"></Button>
           </a>
-          <CommonButton text="Delete Course" @click="store.removeCourse(course.id)"></CommonButton>
+          <Button text="Delete Course" @click="store.removeCourse(course.id)">
+            <img :src="deleteIcon" />
+          </Button>
           <a :href="`/courses/update/${course.id}`">
-            <CommonButton text="Update Course"></CommonButton>
+            <Button text="Update Course">
+              <img :src="editIcon" />
+            </Button>
           </a>
         </div>
       </div>

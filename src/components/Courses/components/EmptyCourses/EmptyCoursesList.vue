@@ -11,9 +11,7 @@
     <p class="empty-message">
       It looks like there are no courses yet. Get started by creating your first course!
     </p>
-    <button class="add-course-btn" @click="handleAddCourse">
-      Create First Course
-    </button>
+    <Button text="Create First Course" class="add-course-btn" @click="handleAddCourse" />
   </div>
 </template>
 

@@ -1,12 +1,13 @@
-<template>
-  <img src="../../../assets/logo.svg" alt="Logo" class="logo">
-</template>
-
 <script setup>
+  import logo from '../../../assets/logo.svg';
   defineOptions({
     name: 'logo',
   })
 </script>
+
+<template>
+  <img :src="logo" alt="Logo" class="logo">
+</template>
 
 <style scoped>
 .logo {

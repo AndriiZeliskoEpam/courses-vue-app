@@ -1,6 +1,5 @@
 <script setup>
   import Logo from './Logo/Logo.vue'
-  import CommonButton from '../../common/Button/Button.vue'
   import { ref, computed } from 'vue'
 
   const getUser = localStorage.getItem('user');
@@ -32,7 +31,7 @@
     <div class="user-container">
       <div v-if="isLoggedIn" class="user-info">
         <span class="user-name">{{ userName }}</span>
-        <CommonButton
+        <Button
           variant="secondary"
           text="Logout"
           @click="handleLogout"

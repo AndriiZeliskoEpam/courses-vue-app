@@ -1,8 +1,6 @@
 <script setup>
   import { reactive, ref } from 'vue'
   import { store } from '@/store'
-  import CommonButton from '../../common/Button/Button.vue'
-  import CommonInput from '../../common/Input/Input.vue'
 
   const formData = reactive({
     email: '',
@@ -99,7 +97,7 @@
   <div class="registration-container">
     <h1>Create Account</h1>
     <form class="form-container" @submit.prevent="handleRegister">
-      <CommonInput
+      <Input
         labelText="Email"
         placeholderText="Enter your email"
         type="email"
@@ -108,7 +106,7 @@
         @change="handleEmailChange"
       />
 
-      <CommonInput
+      <Input
         labelText="Name"
         placeholderText="Enter your name"
         type="text"
@@ -117,7 +115,7 @@
         @change="handleNameChange"
       />
 
-      <CommonInput
+      <Input
         labelText="Password"
         placeholderText="Enter your password"
         type="password"
@@ -126,13 +124,13 @@
         @change="handlePasswordChange"
       />
 
-      <CommonButton
+      <Button
         type="submit"
         :disabled="isLoading"
         @click="handleRegister"
       >
         {{ isLoading ? 'Registering...' : 'Register' }}
-      </CommonButton>
+      </Button>
 
       <p class="login-link">
         Already have an account?

@@ -1,7 +1,6 @@
 <script setup>
   import { computed } from 'vue'
   import { store } from '@/store.js'
-  import CommonButton from "@/common/Button/Button.vue"
   import { getCourseDuration, formatCreationDate } from '@/helpers'
 
   const courseId = computed(() => {
@@ -53,13 +52,13 @@
         </div>
       </div>
       <a href="/courses" role="link" class="back-button">
-        <CommonButton text="Back"></CommonButton>
+        <Button text="Back"></Button>
       </a>
     </div>
   <div v-else class="course-info-wrapper">
     <p>Course not found</p>
     <a href="/courses" role="link">
-      <CommonButton text="Back"></CommonButton>
+      <Button text="Back"></Button>
     </a>
   </div>
 </template>
