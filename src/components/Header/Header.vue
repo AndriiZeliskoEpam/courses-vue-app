@@ -1,26 +1,32 @@
 <script setup>
-  import Logo from './Logo/Logo.vue'
-  import { ref, computed } from 'vue'
+import { computed } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import Logo from './Logo/Logo.vue'
 
-  const getUser = localStorage.getItem('user');
-  const isLoggedIn = ref(getUser);
-  const userName = ref('User')
-  const currentPath = computed(() => window.location.pathname)
+const router = useRouter()
+const route = useRoute()
 
-  const isActive = (path) => {
-    return currentPath.value === path || currentPath.value.startsWith(path + '/')
-  }
+const user = computed(() => {
+  const stored = localStorage.getItem('user')
+  return stored ? JSON.parse(stored) : null
+})
 
-  const handleLogout = () => {
-    isLoggedIn.value = false
-    userName.value = 'User'
-    localStorage.removeItem('user')
-    window.location.href = '/login'
-  }
+const isLoggedIn = computed(() => !!user.value)
 
-  const navigateTo = (path) => {
-    window.location.href = path
-  }
+const userName = computed(() => user.value?.name || 'User')
+
+const isActive = (path) => {
+  return route.path === path || route.path.startsWith(path + '/')
+}
+
+const handleLogout = () => {
+  localStorage.removeItem('user')
+  router.push('/login')
+}
+
+const navigateTo = (path) => {
+  router.push(path)
+}
 </script>
 
 <template>
@@ -28,14 +34,17 @@
     <div class="header-left">
       <Logo />
     </div>
+
     <div class="user-container">
       <div v-if="isLoggedIn" class="user-info">
         <span class="user-name">{{ userName }}</span>
+
         <Button
           variant="secondary"
-          text="Logout"
           @click="handleLogout"
-        />
+        >
+          Logout
+        </Button>
       </div>
     </div>
   </header>

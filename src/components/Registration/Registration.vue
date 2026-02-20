@@ -1,96 +1,94 @@
 <script setup>
-  import { reactive, ref } from 'vue'
-  import { useCourseStore } from '@/store'
+import { reactive, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useCourseStore } from '@/store'
 
-  const store = useCourseStore()
+const router = useRouter()
+const store = useCourseStore()
 
-  const formData = reactive({
-    email: '',
-    name: '',
-    password: ''
+const formData = reactive({
+  email: '',
+  name: '',
+  password: ''
+})
+
+const errors = reactive({
+  email: '',
+  name: '',
+  password: '',
+  common: ''
+})
+
+const isLoading = ref(false)
+
+const validateEmail = (email) =>
+  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+
+const validateForm = () => {
+  let isValid = true
+  errors.common = ''
+
+  if (!formData.email) {
+    errors.email = 'Email is required'
+    isValid = false
+  } else if (!validateEmail(formData.email)) {
+    errors.email = 'Please enter a valid email'
+    isValid = false
+  } else {
+    errors.email = ''
+  }
+
+  if (!formData.name) {
+    errors.name = 'Name is required'
+    isValid = false
+  } else if (formData.name.length < 2) {
+    errors.name = 'Name must be at least 2 characters'
+    isValid = false
+  } else {
+    errors.name = ''
+  }
+
+  if (!formData.password) {
+    errors.password = 'Password is required'
+    isValid = false
+  } else if (formData.password.length < 8) {
+    errors.password = 'Password must be at least 8 characters'
+    isValid = false
+  } else {
+    errors.password = ''
+  }
+
+  return isValid
+}
+
+const handleRegister = async () => {
+  if (!validateForm()) return
+
+  isLoading.value = true
+
+  const existingUser = store.users.find(
+    user => user.email === formData.email
+  )
+
+  if (existingUser) {
+    errors.common = 'User with this email already exists'
+    isLoading.value = false
+    return
+  }
+
+  store.addUser({
+    email: formData.email,
+    name: formData.name,
+    password: formData.password
   })
 
-  const errors = reactive({
-    email: '',
-    name: '',
-    password: '',
-    common: ''
-  })
+  isLoading.value = false
+  router.push('/login')
+}
 
-  const isLoading = ref(false)
-
-  const validateEmail = (email) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    return regex.test(email)
-  }
-
-  const validateForm = () => {
-    let isValid = true
-    errors.common = ''
-
-    if (!formData.email) {
-      errors.email = 'Email is required'
-      isValid = false
-    } else if (!validateEmail(formData.email)) {
-      errors.email = 'Please enter a valid email'
-      isValid = false
-    } else {
-      errors.email = ''
-    }
-
-    if (!formData.name) {
-      errors.name = 'Name is required'
-      isValid = false
-    } else if (formData.name.length < 2) {
-      errors.name = 'Name must be at least 2 characters'
-      isValid = false
-    } else {
-      errors.name = ''
-    }
-
-    if (!formData.password) {
-      errors.password = 'Password is required'
-      isValid = false
-    } else if (formData.password.length < 8) {
-      errors.password = 'Password must be at least 8 characters'
-      isValid = false
-    } else {
-      errors.password = ''
-    }
-
-    return isValid
-  }
-
-  const handleRegister = () => {
-    if (!validateForm()) return
-
-    isLoading.value = true
-
-    setTimeout(() => {
-      const existingUser = store.users.find(
-        user => user.email === formData.email
-      )
-
-      if (existingUser) {
-        errors.common = 'User with this email already exists'
-        isLoading.value = false
-        return
-      }
-
-      store.addUser({
-        email: formData.email,
-        name: formData.name,
-        password: formData.password
-      })
-
-      window.location.href = '/login'
-      isLoading.value = false
-    }, 500)
-  }
-
-  const handleLoginClick = () => {
-    window.location.href = '/login'
-  }
+const handleLoginClick = () => {
+  router.push('/login')
+}
 </script>
 
 <template>
@@ -104,7 +102,7 @@
         type="email"
         :value="formData.email"
         :errorText="errors.email"
-        @change="e => formData.email = e.target.value"
+        @change="e => (formData.email = e.target.value)"
       />
 
       <Input
@@ -113,7 +111,7 @@
         type="text"
         :value="formData.name"
         :errorText="errors.name"
-        @change="e => formData.name = e.target.value"
+        @change="e => (formData.name = e.target.value)"
       />
 
       <Input
@@ -122,7 +120,7 @@
         type="password"
         :value="formData.password"
         :errorText="errors.password"
-        @change="e => formData.password = e.target.value"
+        @change="e => (formData.password = e.target.value)"
       />
 
       <p v-if="errors.common" class="error-message">

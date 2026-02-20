@@ -1,7 +1,9 @@
 <script setup>
   import { reactive, ref } from 'vue'
+  import { useRouter } from 'vue-router'
   import { useCourseStore } from '../../store'
 
+  const router = useRouter()
   const store = useCourseStore()
 
   const credentials = reactive({
@@ -71,7 +73,6 @@
         return
       }
 
-      // Save logged-in user
       localStorage.setItem(
         'user',
         JSON.stringify({
@@ -81,13 +82,13 @@
         })
       )
 
-      window.location.href = '/courses'
+      router.push('/courses')
       isLoading.value = false
     }, 500)
   }
 
   const handleRegisterClick = () => {
-    window.location.href = '/register'
+    router.push('/register')
   }
 </script>
 
