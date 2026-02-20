@@ -9,19 +9,14 @@ import Button from './common/Button/Button.vue'
 import Input from './common/Input/Input.vue'
 
 const app = createApp(App)
-
-/* ✅ Initialize Pinia */
 const pinia = createPinia()
-app.use(pinia)
 
-/* ✅ Initialize Router */
+app.use(pinia)
 app.use(router)
 
-/* ✅ Register global components */
 app.component('Button', Button)
 app.component('Input', Input)
 
-/* ✅ Load persisted store data AFTER Pinia is installed */
 const store = useCourseStore()
 store.loadFromLocalStorage?.()
 

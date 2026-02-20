@@ -45,39 +45,39 @@
 </template>
 
 <style scoped>
-.input-label {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 20px;
-}
+  .input-label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
 
-.label-text {
-  font-weight: 500;
-  color: #333;
-}
+  .label-text {
+    font-weight: 500;
+    color: #333;
+  }
 
-.input {
-  height: 50px;
-  padding: 13px 16px;
-  border-radius: 4px;
-  border: 1px solid #cfcfcf;
-  font-size: 14px;
-  font-family: inherit;
-  transition: border-color 0.3s;
-}
+  .input {
+    height: 50px;
+    padding: 13px 16px;
+    border-radius: 4px;
+    border: 1px solid #cfcfcf;
+    font-size: 14px;
+    font-family: inherit;
+    transition: border-color 0.3s;
+  }
 
-.input:focus {
-  outline: none;
-  border-color: #0066cc;
-}
+  .input:focus {
+    outline: none;
+    border-color: #0066cc;
+  }
 
-.input-error {
-  border: 2px solid #ff0000;
-}
+  .input-error {
+    border: 2px solid #ff0000;
+  }
 
-.error-text {
-  color: #ff0000;
-  font-size: 12px;
-}
+  .error-text {
+    color: #ff0000;
+    font-size: 12px;
+  }
 </style>

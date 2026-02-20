@@ -5,7 +5,6 @@
   import editIcon from '../../../../assets/editButtonIcon.svg'
 
   const store = useCourseStore();
-
   const props = defineProps({
     course: {
       type: Object,
@@ -28,38 +27,38 @@
 
 <template>
   <div class="card-container">
-      <div class="card-text">
-        <h2>{{ course.title }}</h2>
-        <p>{{ course.description }}</p>
-      </div>
-      <div class="card-details">
-        <p>
-          <b>Authors: </b>
-          {{ getAuthors() }}
-        </p>
-        <p>
-          <b>Duration:</b>
-          <span>{{ getCourseDuration(course.duration) }}</span>
-        </p>
-        <p>
-          <b>Created: </b>
-          <span>{{ formatCreationDate(course.creationDate) }}</span>
-        </p>
-        <div class="buttons-container">
-          <a :href="`/courses/${course.id}`">
-            <Button text="Show Course"></Button>
-          </a>
-          <Button text="Delete Course" @click="store.removeCourse(course.id)">
-            <img :src="deleteIcon" />
+    <div class="card-text">
+      <h2>{{ course.title }}</h2>
+      <p>{{ course.description }}</p>
+    </div>
+    <div class="card-details">
+      <p>
+        <b>Authors: </b>
+        {{ getAuthors() }}
+      </p>
+      <p>
+        <b>Duration:</b>
+        <span>{{ getCourseDuration(course.duration) }}</span>
+      </p>
+      <p>
+        <b>Created: </b>
+        <span>{{ formatCreationDate(course.creationDate) }}</span>
+      </p>
+      <div class="buttons-container">
+        <a :href="`/courses/${course.id}`">
+          <Button text="Show Course"></Button>
+        </a>
+        <Button text="Delete Course" @click="store.removeCourse(course.id)">
+          <img :src="deleteIcon" />
+        </Button>
+        <a :href="`/courses/update/${course.id}`">
+          <Button text="Update Course">
+            <img :src="editIcon" />
           </Button>
-          <a :href="`/courses/update/${course.id}`">
-            <Button text="Update Course">
-              <img :src="editIcon" />
-            </Button>
-          </a>
-        </div>
+        </a>
       </div>
     </div>
+  </div>
 </template>
 
 <style>

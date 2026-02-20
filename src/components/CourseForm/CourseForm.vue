@@ -5,7 +5,7 @@
   import { getCurrentDateFormatted } from '@/helpers/getCurrentDate.js'
 
   const store = useCourseStore();
-  
+
   const courseData = reactive({
     id: null,
     title: '',
@@ -22,7 +22,6 @@
 
   const isCreating = ref(true)
 
-  // Helper functions
   const getCourseDuration = (minutes) => {
     if (!minutes) return 'N/A'
     const hours = Math.floor(minutes / 60)
@@ -30,7 +29,6 @@
     return hours > 0 ? `${hours}h ${mins}m` : `${mins}m`
   }
 
-  // Extract course ID from URL if editing
   onMounted(() => {
     const pathParts = window.location.pathname.split('/')
     const courseId = pathParts[pathParts.length - 1]
@@ -176,116 +174,116 @@
 </template>
 
 <style>
-.container {
-  display: flex;
-  flex-direction: column;
-}
+  .container {
+    display: flex;
+    flex-direction: column;
+  }
 
-.description {
-  display: block;
-  min-height: 100px;
-  border-radius: 4px;
-  border: 1px solid #cfcfcfad;
-  padding: 8px;
-  font-family: inherit;
-}
+  .description {
+    display: block;
+    min-height: 100px;
+    border-radius: 4px;
+    border: 1px solid #cfcfcfad;
+    padding: 8px;
+    font-family: inherit;
+  }
 
-form {
-  margin-top: 20px;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  border-radius: 4px;
-  border: 1px solid #cfcfcf;
-  background: #fff;
-}
+  form {
+    margin-top: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-radius: 4px;
+    border: 1px solid #cfcfcf;
+    background: #fff;
+  }
 
-form input {
-  width: inherit;
-}
+  form input {
+    width: inherit;
+  }
 
-.info-wrapper {
-  display: flex;
-  gap: 24px;
-  margin-top: 24px;
-  justify-content: space-between;
-}
+  .info-wrapper {
+    display: flex;
+    gap: 24px;
+    margin-top: 24px;
+    justify-content: space-between;
+  }
 
-.info-wrapper > div {
-  width: calc(50% - 12px);
-}
+  .info-wrapper > div {
+    width: calc(50% - 12px);
+  }
 
-.info-wrapper input {
-  width: 100%;
-  max-width: 380px;
-}
+  .info-wrapper input {
+    width: 100%;
+    max-width: 380px;
+  }
 
-.authors-container {
-  border: 1px solid #e0e0e0;
-  border-radius: 4px;
-  padding: 16px;
-  max-height: 400px;
-  overflow-y: auto;
-}
+  .authors-container {
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 16px;
+    max-height: 400px;
+    overflow-y: auto;
+  }
 
-.author-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px;
-  border-bottom: 1px solid #f0f0f0;
-}
+  .author-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border-bottom: 1px solid #f0f0f0;
+  }
 
-.author-item:last-child {
-  border-bottom: none;
-}
+  .author-item:last-child {
+    border-bottom: none;
+  }
 
-.author-item p {
-  margin: 0;
-  padding: 0;
-}
+  .author-item p {
+    margin: 0;
+    padding: 0;
+  }
 
-.notification {
-  text-align: center;
-  color: #999;
-  padding: 20px;
-}
+  .notification {
+    text-align: center;
+    color: #999;
+    padding: 20px;
+  }
 
-.duration {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  margin-bottom: 20px;
-}
+  .duration {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
 
-.course-authors-container {
-  border: 1px solid #e0e0e0;
-  border-radius: 4px;
-  padding: 16px;
-  max-height: 400px;
-  overflow-y: auto;
-}
+  .course-authors-container {
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 16px;
+    max-height: 400px;
+    overflow-y: auto;
+  }
 
-.course-author-item {
-  padding: 12px;
-  border-bottom: 1px solid #f0f0f0;
-}
+  .course-author-item {
+    padding: 12px;
+    border-bottom: 1px solid #f0f0f0;
+  }
 
-.course-author-item:last-child {
-  border-bottom: none;
-}
+  .course-author-item:last-child {
+    border-bottom: none;
+  }
 
-.course-author-item p {
-  margin: 0;
-  padding: 0;
-}
+  .course-author-item p {
+    margin: 0;
+    padding: 0;
+  }
 
-.buttons-container {
-  display: flex;
-  justify-content: flex-end;
-  gap: 20px;
-  margin: 40px 0;
-}
+  .buttons-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+    margin: 40px 0;
+  }
 </style>

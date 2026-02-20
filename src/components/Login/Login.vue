@@ -95,7 +95,6 @@
 <template>
   <div class="login-container">
     <h1>Login</h1>
-
     <form class="form-container" @submit.prevent="handleLogin">
       <Input
         labelText="Email"
@@ -105,7 +104,6 @@
         :errorText="errors.email"
         @change="e => credentials.email = e.target.value"
       />
-
       <Input
         labelText="Password"
         placeholderText="Enter your password"
@@ -114,15 +112,12 @@
         :errorText="errors.password"
         @change="e => credentials.password = e.target.value"
       />
-
       <p v-if="errors.common" class="error-message">
         {{ errors.common }}
       </p>
-
       <Button type="submit" :disabled="isLoading">
         {{ isLoading ? 'Logging in...' : 'Login' }}
       </Button>
-
       <p class="register-link">
         Don't have an account?
         <a href="/register" @click.prevent="handleRegisterClick">
@@ -134,54 +129,54 @@
 </template>
 
 <style scoped>
-.error-message {
-  color: red;
-  text-align: center;
-  margin-bottom: 15px;
-}
+  .error-message {
+    color: red;
+    text-align: center;
+    margin-bottom: 15px;
+  }
 
-.login-container {
-  width: 585px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-}
+  .login-container {
+    width: 585px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
 
-.login-container h1 {
-  text-align: center;
-  margin-bottom: 30px;
-}
+  .login-container h1 {
+    text-align: center;
+    margin-bottom: 30px;
+  }
 
-.form-container {
-  padding: 40px 50px;
-  background-color: #fff;
-  border-radius: 4px;
-  border: 1px solid #cfcfcf;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
+  .form-container {
+    padding: 40px 50px;
+    background-color: #fff;
+    border-radius: 4px;
+    border: 1px solid #cfcfcf;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
 
-.form-container button {
-  width: 100%;
-  margin-bottom: 20px;
-  margin-top: 10px;
-}
+  .form-container button {
+    width: 100%;
+    margin-bottom: 20px;
+    margin-top: 10px;
+  }
 
-.register-link {
-  text-align: center;
-  margin: 20px 0 0;
-  font-size: 14px;
-}
+  .register-link {
+    text-align: center;
+    margin: 20px 0 0;
+    font-size: 14px;
+  }
 
-.register-link a {
-  color: #007298;
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.3s;
-}
+  .register-link a {
+    color: #007298;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+  }
 
-.register-link a:hover {
-  color: #005a73;
-  text-decoration: underline;
-}
+  .register-link a:hover {
+    color: #005a73;
+    text-decoration: underline;
+  }
 </style>

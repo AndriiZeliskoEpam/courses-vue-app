@@ -40,60 +40,60 @@
 </template>
 
 <style scoped>
-.common-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 50px;
-  padding: 8px 16px;
-  font-size: 16px;
-  font-weight: 500;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  white-space: nowrap;
-}
+  .common-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    padding: 8px 16px;
+    font-size: 16px;
+    font-weight: 500;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+  }
 
-.common-button:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-}
+  .common-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
 
-.common-button:active:not(:disabled) {
-  transform: translateY(0);
-}
+  .common-button:active:not(:disabled) {
+    transform: translateY(0);
+  }
 
-.common-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
+  .common-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
 
-.button-primary {
-  background-color: #007298;
-  color: #fff;
-}
+  .button-primary {
+    background-color: #007298;
+    color: #fff;
+  }
 
-.button-primary:hover:not(:disabled) {
-  background-color: #005a73;
-}
+  .button-primary:hover:not(:disabled) {
+    background-color: #005a73;
+  }
 
-.button-secondary {
-  background-color: #f0f0f0;
-  color: #333;
-  border: 1px solid #ccc;
-}
+  .button-secondary {
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #ccc;
+  }
 
-.button-secondary:hover:not(:disabled) {
-  background-color: #e0e0e0;
-}
+  .button-secondary:hover:not(:disabled) {
+    background-color: #e0e0e0;
+  }
 
-.button-danger {
-  background-color: #ff4444;
-  color: #fff;
-}
+  .button-danger {
+    background-color: #ff4444;
+    color: #fff;
+  }
 
-.button-danger:hover:not(:disabled) {
-  background-color: #cc0000;
-}
+  .button-danger:hover:not(:disabled) {
+    background-color: #cc0000;
+  }
 </style>

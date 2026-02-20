@@ -10,8 +10,8 @@
 </template>
 
 <style scoped>
-.logo {
-  height: 75px;
-  margin-left: -25px;
-}
+  .logo {
+    height: 75px;
+    margin-left: -25px;
+  }
 </style>
