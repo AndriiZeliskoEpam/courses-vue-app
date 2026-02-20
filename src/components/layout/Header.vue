@@ -1,10 +1,10 @@
 <script setup>
   import { computed } from 'vue'
   import { useRouter, useRoute } from 'vue-router'
-  import Logo from './Logo/Logo.vue'
+  import Logo from '@/components/layout/Logo.vue'
+  import { BUTTON_NAMES } from '@/constants/buttonNames'
 
   const router = useRouter()
-  const route = useRoute()
 
   const user = computed(() => {
     const stored = localStorage.getItem('user')
@@ -30,10 +30,9 @@
       <div v-if="isLoggedIn" class="user-info">
         <span class="user-name">{{ userName }}</span>
         <Button
-          variant="secondary"
+          :text=BUTTON_NAMES.LOGOUT
           @click="handleLogout"
         >
-          Logout
         </Button>
       </div>
     </div>

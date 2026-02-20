@@ -1,0 +1,10 @@
+export const BUTTON_NAMES = {
+  LOGIN: 'Login',
+  LOGOUT: "Logout",
+  REGISTER: "Register",
+  CANCEL: "CANCEL",
+  ADD_NEW_COURSE: "ADD NEW COURSE",
+  SHOW_COURSE: "SHOW COURSE",
+  BACK: "BACK",
+  UPDATE_COURSE: "UPDATE"
+}

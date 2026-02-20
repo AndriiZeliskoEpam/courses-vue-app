@@ -1,8 +1,10 @@
 <script setup>
   import { useCourseStore } from '@/store'
-  import { getCourseDuration, formatCreationDate } from '@/helpers'
-  import deleteIcon from '../../../../assets/deleteButtonIcon.svg'
-  import editIcon from '../../../../assets/editButtonIcon.svg'
+  import { getCourseDuration } from '@/utils/getCourseDuration'
+  import { formatCreationDate } from '@/utils/formatCreationDate'
+  import deleteIcon from '@/assets/images/deleteButtonIcon.svg'
+  import editIcon from '@/assets/images/editButtonIcon.svg'
+  import { BUTTON_NAMES } from '@/constants/buttonNames'
 
   const store = useCourseStore();
   const props = defineProps({
@@ -46,7 +48,7 @@
       </p>
       <div class="buttons-container">
         <a :href="`/courses/${course.id}`">
-          <Button text="Show Course"></Button>
+          <Button :text=BUTTON_NAMES.SHOW_COURSE></Button>
         </a>
         <Button text="Delete Course" @click="store.removeCourse(course.id)">
           <img :src="deleteIcon" />
@@ -61,7 +63,7 @@
   </div>
 </template>
 
-<style>
+<style scoped lang="scss">
   .card-container {
     display: flex;
     padding: 8px 16px;

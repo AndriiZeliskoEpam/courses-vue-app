@@ -1,12 +1,12 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
-import App from './App.vue'
-import router from './router'
-import { useCourseStore } from './store'
+import App from '@/App.vue'
+import router from '@/router/index'
+import { useCourseStore } from '@/store/index'
 
-import Button from './common/Button/Button.vue'
-import Input from './common/Input/Input.vue'
+import Button from '@/components/common/Button.vue'
+import Input from '@/components/common/Input.vue'
 
 const app = createApp(App)
 const pinia = createPinia()

@@ -1,8 +1,9 @@
 <script setup>
-  import { useCourseStore } from '../../store.js' 
+  import { useCourseStore } from '@/store/index.js' 
   import { ref, computed } from 'vue'
-  import CourseCard from './components/CourseCard/CourseCard.vue'
-  import EmptyCourses from '../Courses/components/EmptyCourses/EmptyCoursesList.vue'
+  import CourseCard from '@/components/features/Courses/CourseCard.vue'
+  import EmptyCourses from '@/components/features/Courses/EmptyCoursesList.vue'
+  import { BUTTON_NAMES } from '@/constants/buttonNames'
 
   const searchQuery = ref('');
   const store = useCourseStore()
@@ -30,7 +31,7 @@
     <div class="courses-header">
       <h1>Courses</h1>
       <Button
-        text="Add New Course"
+        :text=BUTTON_NAMES.ADD_NEW_COURSE
         @click="handleAddCourse"
       />
     </div>
@@ -59,19 +60,23 @@
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+  $primary-color: #007298;
+  $border-color: #cfcfcf;
+  $radius: 6px;
+
   .courses-wrapper {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 28px;
   }
 
   .courses-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 0;
-    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #efefef;
   }
 
   .courses-header h1 {
@@ -82,35 +87,18 @@
 
   .search-bar {
     display: flex;
-    gap: 10px;
   }
 
   .search-input {
     flex: 1;
-    max-width: 500px;
-    padding: 12px 16px;
-    border: 1px solid #cfcfcf;
-    border-radius: 4px;
-    font-size: 14px;
-    transition: border-color 0.3s;
+    max-width: 520px;
+    padding: 10px 12px;
+    border: 1px solid $border-color;
+    border-radius: $radius;
+    transition: box-shadow 0.12s ease;
+    &:focus { box-shadow: 0 6px 18px rgba(0,0,0,0.06); outline:none; border-color:$primary-color }
   }
 
-  .search-input:focus {
-    outline: none;
-    border-color: #007298;
-    box-shadow: 0 0 0 3px rgba(0, 114, 152, 0.1);
-  }
-
-  .courses-list {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .empty-state {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 400px;
-  }
+  .courses-list { display:flex; flex-direction:column; gap:18px; }
+  .empty-state { display:flex; justify-content:center; align-items:center; min-height:320px; }
 </style>

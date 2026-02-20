@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import Login from '@/components/Login/Login.vue'
-import Registration from '@/components/Registration/Registration.vue'
-import Courses from '@/components/Courses/Courses.vue'
-import CourseInfo from '@/components/CourseInfo/CourseInfo.vue'
-import CourseForm from '@/components/CourseForm/CourseForm.vue'
+import Login from '@/components/features/Auth/Login.vue'
+import Registration from '@/components/features/Auth/Registration.vue'
+import Courses from '@/components/features/Courses/Courses.vue'
+import CourseInfo from '@/components/features/CourseInfo/CourseInfo.vue'
+import CourseForm from '@/components/features/Courses/CourseForm.vue'
 
 const routes = [
   {

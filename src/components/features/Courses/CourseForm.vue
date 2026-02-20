@@ -1,8 +1,8 @@
 <script setup>
-  import { ref, computed, reactive, onMounted } from 'vue'
-  import { useCourseStore } from '../../store.js'
-  import { generateUUID } from '@/helpers/generateUUID.js'
-  import { getCurrentDateFormatted } from '@/helpers/getCurrentDate.js'
+  import { ref, reactive, onMounted } from 'vue'
+  import { useCourseStore } from '@/store/index'
+  import { generateUUID } from '@/utils/generateUUID.js'
+  import { getCurrentDateFormatted } from '@/utils/getCurrentDate.js'
 
   const store = useCourseStore();
 
@@ -173,7 +173,7 @@
   </div>
 </template>
 
-<style>
+<style scoped lang="scss">
   .container {
     display: flex;
     flex-direction: column;

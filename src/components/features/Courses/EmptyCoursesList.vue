@@ -15,7 +15,7 @@
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
   .empty-state {
     text-align: center;
     padding: 60px 40px;

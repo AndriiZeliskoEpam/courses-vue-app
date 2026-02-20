@@ -1,47 +1,58 @@
 <script setup>
   import { reactive, ref } from 'vue'
   import { useRouter } from 'vue-router'
-  import { useCourseStore } from '../../store'
+  import { useCourseStore } from '@/store/index.js'
+  import { BUTTON_NAMES } from '@/constants/buttonNames'
 
   const router = useRouter()
   const store = useCourseStore()
 
-  const credentials = reactive({
+  const formData = reactive({
     email: '',
+    name: '',
     password: ''
   })
 
   const errors = reactive({
     email: '',
+    name: '',
     password: '',
     common: ''
   })
 
   const isLoading = ref(false)
 
-  const validateEmail = (email) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    return regex.test(email)
-  }
+  const validateEmail = (email) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
 
   const validateForm = () => {
     let isValid = true
     errors.common = ''
 
-    if (!credentials.email) {
+    if (!formData.email) {
       errors.email = 'Email is required'
       isValid = false
-    } else if (!validateEmail(credentials.email)) {
+    } else if (!validateEmail(formData.email)) {
       errors.email = 'Please enter a valid email'
       isValid = false
     } else {
       errors.email = ''
     }
 
-    if (!credentials.password) {
+    if (!formData.name) {
+      errors.name = 'Name is required'
+      isValid = false
+    } else if (formData.name.length < 2) {
+      errors.name = 'Name must be at least 2 characters'
+      isValid = false
+    } else {
+      errors.name = ''
+    }
+
+    if (!formData.password) {
       errors.password = 'Password is required'
       isValid = false
-    } else if (credentials.password.length < 8) {
+    } else if (formData.password.length < 8) {
       errors.password = 'Password must be at least 8 characters'
       isValid = false
     } else {
@@ -51,91 +62,88 @@
     return isValid
   }
 
-  const handleLogin = () => {
+  const handleRegister = async () => {
     if (!validateForm()) return
 
     isLoading.value = true
 
-    setTimeout(() => {
-      const user = store.users.find(
-        u => u.email === credentials.email
-      )
+    const existingUser = store.users.find(
+      user => user.email === formData.email
+    )
 
-      if (!user) {
-        errors.common = 'User with this email does not exist'
-        isLoading.value = false
-        return
-      }
-
-      if (user.password !== credentials.password) {
-        errors.common = 'Incorrect password'
-        isLoading.value = false
-        return
-      }
-
-      localStorage.setItem(
-        'user',
-        JSON.stringify({
-          id: user.id,
-          email: user.email,
-          name: user.name
-        })
-      )
-
-      router.push('/courses')
+    if (existingUser) {
+      errors.common = 'User with this email already exists'
       isLoading.value = false
-    }, 500)
+      return
+    }
+
+    store.addUser({
+      email: formData.email,
+      name: formData.name,
+      password: formData.password
+    })
+
+    isLoading.value = false
+    router.push('/login')
   }
 
-  const handleRegisterClick = () => {
-    router.push('/register')
+  const handleLoginClick = () => {
+    router.push('/login')
   }
 </script>
 
 <template>
-  <div class="login-container">
-    <h1>Login</h1>
-    <form class="form-container" @submit.prevent="handleLogin">
+  <div class="registration-container">
+    <h1>Create Account</h1>
+    <form class="form-container" @submit.prevent="handleRegister">
       <Input
         labelText="Email"
         placeholderText="Enter your email"
         type="email"
-        :value="credentials.email"
+        :value="formData.email"
         :errorText="errors.email"
-        @change="e => credentials.email = e.target.value"
+        @change="e => (formData.email = e.target.value)"
+      />
+      <Input
+        labelText="Name"
+        placeholderText="Enter your name"
+        type="text"
+        :value="formData.name"
+        :errorText="errors.name"
+        @change="e => (formData.name = e.target.value)"
       />
       <Input
         labelText="Password"
         placeholderText="Enter your password"
         type="password"
-        :value="credentials.password"
+        :value="formData.password"
         :errorText="errors.password"
-        @change="e => credentials.password = e.target.value"
+        @change="e => (formData.password = e.target.value)"
       />
       <p v-if="errors.common" class="error-message">
         {{ errors.common }}
       </p>
       <Button type="submit" :disabled="isLoading">
-        {{ isLoading ? 'Logging in...' : 'Login' }}
+        {{ isLoading ? 'Registering...' : BUTTON_NAMES.REGISTER }}
       </Button>
-      <p class="register-link">
-        Don't have an account?
-        <a href="/register" @click.prevent="handleRegisterClick">
-          Register here
+      <p class="login-link">
+        Already have an account?
+        <a href="/login" @click.prevent="handleLoginClick">
+          Login here
         </a>
       </p>
     </form>
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
   .error-message {
     color: red;
     text-align: center;
     margin-bottom: 15px;
   }
 
-  .login-container {
+  .registration-container {
     width: 585px;
     margin: 0 auto;
     display: flex;
@@ -143,7 +151,7 @@
     flex-direction: column;
   }
 
-  .login-container h1 {
+  .registration-container h1 {
     text-align: center;
     margin-bottom: 30px;
   }
@@ -162,20 +170,20 @@
     margin-top: 10px;
   }
 
-  .register-link {
+  .login-link {
     text-align: center;
     margin: 20px 0 0;
     font-size: 14px;
   }
 
-  .register-link a {
+  .login-link a {
     color: #007298;
     text-decoration: none;
     font-weight: 500;
     transition: color 0.3s;
   }
 
-  .register-link a:hover {
+  .login-link a:hover {
     color: #005a73;
     text-decoration: underline;
   }

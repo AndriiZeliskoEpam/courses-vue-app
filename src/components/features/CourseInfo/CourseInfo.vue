@@ -1,7 +1,9 @@
 <script setup>
   import { computed } from 'vue'
-  import { useCourseStore } from '@/store.js'
-  import { getCourseDuration, formatCreationDate } from '@/helpers'
+  import { useCourseStore } from '@/store/index.js'
+  import { getCourseDuration } from '@/utils/getCourseDuration.js'
+  import { formatCreationDate } from '@/utils/formatCreationDate.js'
+  import { BUTTON_NAMES } from '@/constants/buttonNames'
   
   const store = useCourseStore();
 
@@ -54,18 +56,18 @@
       </div>
     </div>
     <a href="/courses" role="link" class="back-button">
-      <Button text="Back"></Button>
+      <Button :text=BUTTON_NAMES.BACK></Button>
     </a>
   </div>
   <div v-else class="course-info-wrapper">
     <p>Course not found</p>
     <a href="/courses" role="link">
-      <Button text="Back"></Button>
+      <Button :text=BUTTON_NAMES.BACK></Button>
     </a>
   </div>
 </template>
 
-<style>
+<style scoped lang="scss">
   .course-info-wrapper {
     display: flex;
     flex-direction: column;

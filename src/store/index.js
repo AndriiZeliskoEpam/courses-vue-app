@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
-import { mockedCoursesList, mockedAuthorsList } from './constants'
+import { mockedCoursesList } from '@/constants/mockedCoursesList'
+import { mockedAuthorsList } from '@/constants/mockedAuthorsList'
 
 export const useCourseStore = defineStore('courseStore', {
   state: () => ({
