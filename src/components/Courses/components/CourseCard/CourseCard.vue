@@ -1,8 +1,10 @@
 <script setup>
-  import { store } from '@/store'
+  import { useCourseStore } from '@/store'
   import { getCourseDuration, formatCreationDate } from '@/helpers'
   import deleteIcon from '../../../../assets/deleteButtonIcon.svg'
   import editIcon from '../../../../assets/editButtonIcon.svg'
+
+  const store = useCourseStore();
 
   const props = defineProps({
     course: {

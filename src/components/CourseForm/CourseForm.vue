@@ -1,9 +1,11 @@
 <script setup>
   import { ref, computed, reactive, onMounted } from 'vue'
-  import { store } from '../../store.js'
+  import { useCourseStore } from '../../store.js'
   import { generateUUID } from '@/helpers/generateUUID.js'
   import { getCurrentDateFormatted } from '@/helpers/getCurrentDate.js'
 
+  const store = useCourseStore();
+  
   const courseData = reactive({
     id: null,
     title: '',

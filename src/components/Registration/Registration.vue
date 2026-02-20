@@ -1,17 +1,20 @@
 <script setup>
   import { reactive, ref } from 'vue'
-  import { store } from '@/store'
+  import { useCourseStore } from '@/store'
+
+  const store = useCourseStore()
 
   const formData = reactive({
     email: '',
     name: '',
-    password: '',
+    password: ''
   })
 
   const errors = reactive({
     email: '',
     name: '',
-    password: ''
+    password: '',
+    common: ''
   })
 
   const isLoading = ref(false)
@@ -23,6 +26,7 @@
 
   const validateForm = () => {
     let isValid = true
+    errors.common = ''
 
     if (!formData.email) {
       errors.email = 'Email is required'
@@ -34,55 +38,51 @@
       errors.email = ''
     }
 
-    if (!formData.password) {
-      errors.password = 'Password is required'
-      isValid = false
-    } else if (formData.password.length < 8) {
-      errors.password = 'Password must be at least 8 characters long'
-      isValid = false
-    } else {
-      errors.password = ''
-    }
-
     if (!formData.name) {
-      errors.name = 'Please confirm your password'
+      errors.name = 'Name is required'
       isValid = false
     } else if (formData.name.length < 2) {
-      errors.name = 'Name must be at least 2 characters long'
+      errors.name = 'Name must be at least 2 characters'
       isValid = false
     } else {
       errors.name = ''
     }
 
+    if (!formData.password) {
+      errors.password = 'Password is required'
+      isValid = false
+    } else if (formData.password.length < 8) {
+      errors.password = 'Password must be at least 8 characters'
+      isValid = false
+    } else {
+      errors.password = ''
+    }
+
     return isValid
   }
 
-  const handleEmailChange = (e) => {
-    formData.email = e.target.value
-    errors.email = ''
-  }
-
-  const handlePasswordChange = (e) => {
-    formData.password = e.target.value
-    errors.password = ''
-  }
-
-  const handleNameChange = (e) => {
-    formData.name = e.target.value
-    errors.name = ''
-  }
-
-  const handleRegister = (e) => {
-    e.preventDefault()
-
-    if (!validateForm()) {
-      return
-    }
+  const handleRegister = () => {
+    if (!validateForm()) return
 
     isLoading.value = true
-    // Simulate API call
+
     setTimeout(() => {
-      store.addUser({email: formData.email, name: formData.name});
+      const existingUser = store.users.find(
+        user => user.email === formData.email
+      )
+
+      if (existingUser) {
+        errors.common = 'User with this email already exists'
+        isLoading.value = false
+        return
+      }
+
+      store.addUser({
+        email: formData.email,
+        name: formData.name,
+        password: formData.password
+      })
+
       window.location.href = '/login'
       isLoading.value = false
     }, 500)
@@ -96,6 +96,7 @@
 <template>
   <div class="registration-container">
     <h1>Create Account</h1>
+
     <form class="form-container" @submit.prevent="handleRegister">
       <Input
         labelText="Email"
@@ -103,7 +104,7 @@
         type="email"
         :value="formData.email"
         :errorText="errors.email"
-        @change="handleEmailChange"
+        @change="e => formData.email = e.target.value"
       />
 
       <Input
@@ -112,7 +113,7 @@
         type="text"
         :value="formData.name"
         :errorText="errors.name"
-        @change="handleNameChange"
+        @change="e => formData.name = e.target.value"
       />
 
       <Input
@@ -121,26 +122,34 @@
         type="password"
         :value="formData.password"
         :errorText="errors.password"
-        @change="handlePasswordChange"
+        @change="e => formData.password = e.target.value"
       />
 
-      <Button
-        type="submit"
-        :disabled="isLoading"
-        @click="handleRegister"
-      >
+      <p v-if="errors.common" class="error-message">
+        {{ errors.common }}
+      </p>
+
+      <Button type="submit" :disabled="isLoading">
         {{ isLoading ? 'Registering...' : 'Register' }}
       </Button>
 
       <p class="login-link">
         Already have an account?
-        <a href="/login" @click.prevent="handleLoginClick">Login here</a>
+        <a href="/login" @click.prevent="handleLoginClick">
+          Login here
+        </a>
       </p>
     </form>
   </div>
 </template>
 
 <style scoped>
+.error-message {
+  color: red;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
 .registration-container {
   width: 585px;
   margin: 0 auto;

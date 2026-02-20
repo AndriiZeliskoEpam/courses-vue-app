@@ -1,17 +1,18 @@
 <script setup>
   import { reactive, ref } from 'vue'
-  import { store } from '@/store'
+  import { useCourseStore } from '../../store'
+
+  const store = useCourseStore()
 
   const credentials = reactive({
     email: '',
-    password: '',
-    name: ''
+    password: ''
   })
 
   const errors = reactive({
     email: '',
     password: '',
-    name: ''
+    common: ''
   })
 
   const isLoading = ref(false)
@@ -23,13 +24,7 @@
 
   const validateForm = () => {
     let isValid = true
-    
-    if (!credentials.name) {
-      errors.name = 'Name is required'
-      isValid = false
-    } else {
-      errors.name = ''
-    }
+    errors.common = ''
 
     if (!credentials.email) {
       errors.email = 'Email is required'
@@ -45,7 +40,7 @@
       errors.password = 'Password is required'
       isValid = false
     } else if (credentials.password.length < 8) {
-      errors.password = 'Password must be at least 8 characters long'
+      errors.password = 'Password must be at least 8 characters'
       isValid = false
     } else {
       errors.password = ''
@@ -54,38 +49,38 @@
     return isValid
   }
 
-  const handleEmailChange = (e) => {
-    credentials.email = e.target.value
-    errors.email = ''
-  }
-
-  const handleNameChange = (e) => {
-    credentials.name = e.target.value
-    errors.name = ''
-  }
-
-  const handlePasswordChange = (e) => {
-    credentials.password = e.target.value
-    errors.password = ''
-  }
-
-  const handleLogin = (e) => {
-    e.preventDefault()
-    
-    if (!validateForm()) {
-      return
-    }
+  const handleLogin = () => {
+    if (!validateForm()) return
 
     isLoading.value = true
-    // Simulate API call
+
     setTimeout(() => {
-      const getUser = store.getUserByEmail(credentials.email)
-      if (!getUser) {
-        // Add new user if doesn't exist
-        store.addUser({ email: credentials.email, name: credentials.name })
+      const user = store.users.find(
+        u => u.email === credentials.email
+      )
+
+      if (!user) {
+        errors.common = 'User with this email does not exist'
+        isLoading.value = false
+        return
       }
-      
-      localStorage.setItem('user', JSON.stringify({ email: credentials.email, name: credentials.name }))
+
+      if (user.password !== credentials.password) {
+        errors.common = 'Incorrect password'
+        isLoading.value = false
+        return
+      }
+
+      // Save logged-in user
+      localStorage.setItem(
+        'user',
+        JSON.stringify({
+          id: user.id,
+          email: user.email,
+          name: user.name
+        })
+      )
+
       window.location.href = '/courses'
       isLoading.value = false
     }, 500)
@@ -99,51 +94,51 @@
 <template>
   <div class="login-container">
     <h1>Login</h1>
-    <form class="form-container" @submit.prevent="handleLogin">
-      <Input
-        labelText="Name"
-        placeholderText="Enter your name"
-        type="text"
-        :value="credentials.name"
-        :errorText="errors.name"
-        @change="handleNameChange"
-      />
 
+    <form class="form-container" @submit.prevent="handleLogin">
       <Input
         labelText="Email"
         placeholderText="Enter your email"
         type="email"
         :value="credentials.email"
         :errorText="errors.email"
-        @change="handleEmailChange"
+        @change="e => credentials.email = e.target.value"
       />
-      
+
       <Input
         labelText="Password"
         placeholderText="Enter your password"
         type="password"
         :value="credentials.password"
         :errorText="errors.password"
-        @change="handlePasswordChange"
+        @change="e => credentials.password = e.target.value"
       />
 
-      <Button
-        type="submit"
-        :disabled="isLoading"
-        @click="handleLogin"
-      >
+      <p v-if="errors.common" class="error-message">
+        {{ errors.common }}
+      </p>
+
+      <Button type="submit" :disabled="isLoading">
         {{ isLoading ? 'Logging in...' : 'Login' }}
       </Button>
 
       <p class="register-link">
         Don't have an account?
-        <a href="/register" @click.prevent="handleRegisterClick">Register here</a>
+        <a href="/register" @click.prevent="handleRegisterClick">
+          Register here
+        </a>
       </p>
     </form>
   </div>
 </template>
 
 <style scoped>
+.error-message {
+  color: red;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
 .login-container {
   width: 585px;
   margin: 0 auto;

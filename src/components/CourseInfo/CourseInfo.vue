@@ -1,7 +1,9 @@
 <script setup>
   import { computed } from 'vue'
-  import { store } from '@/store.js'
+  import { useCourseStore } from '@/store.js'
   import { getCourseDuration, formatCreationDate } from '@/helpers'
+  
+  const store = useCourseStore();
 
   const courseId = computed(() => {
     return window.location.pathname.split('/')[window.location.pathname.split('/').length - 1]

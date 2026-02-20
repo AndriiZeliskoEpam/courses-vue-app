@@ -1,10 +1,11 @@
 <script setup>
-  import { store } from '../../store.js'
+  import { useCourseStore } from '../../store.js' 
   import { ref, computed } from 'vue'
   import CourseCard from './components/CourseCard/CourseCard.vue'
   import EmptyCourses from '../Courses/components/EmptyCourses/EmptyCoursesList.vue'
 
-  const searchQuery = ref('')
+  const searchQuery = ref('');
+  const store = useCourseStore()
 
   const filteredCourses = computed(() => {
     if (!searchQuery.value) return store.courses
